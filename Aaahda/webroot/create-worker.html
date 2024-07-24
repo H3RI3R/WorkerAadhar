@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Open Chromium</title>
+</head>
+<body>
+    <h1>Open Chromium Browser</h1>
+    <button onclick="openChromium('worker1')">Start Worker 1</button>
+    <button onclick="openChromium('worker2')">Start Worker 2</button>
+     <button onclick="openChromium('worker1')">Start Worker 3</button>
+    <button onclick="openChromium('worker2')">Start Worker 4</button>
+     <button onclick="openChromium('worker1')">Start Worker 5</button>
+    <button onclick="openChromium('worker2')">Start Worker 6</button>
+     <button onclick="openChromium('worker1')">Start Worker 7</button>
+    <button onclick="openChromium('worker2')">Start Worker 8</button>
+     <button onclick="openChromium('worker1')">Start Worker 9</button>
+    <button onclick="openChromium('worker2')">Start Worker 10</button>
+    
+
+    <script>
+        function openChromium(worker) {
+            fetch('StartWorkersServlet?worker=' + worker)
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>

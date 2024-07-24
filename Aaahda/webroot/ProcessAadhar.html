@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Input Fields</title>
+    <script>
+        // Function to add a new input field
+        function addInputField() {
+            // Get the parent div where new input fields will be added
+            var parentDiv = document.getElementById("input-container");
+
+            // Create a new div to hold the input and the remove button
+            var newDiv = document.createElement("div");
+            newDiv.className = "input-group";
+
+            // Create a new input field
+            var newInput = document.createElement("input");
+            newInput.type = "text";
+            newInput.name = "multiInput"; // Array-like name to collect all inputs
+            newInput.placeholder = "Enter value";
+
+            // Create a remove button
+            var removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.textContent = "Remove";
+            removeButton.onclick = function () {
+                parentDiv.removeChild(newDiv);
+            };
+
+            // Append the input and remove button to the new div
+            newDiv.appendChild(newInput);
+            newDiv.appendChild(removeButton);
+
+            // Add the new div to the parent container
+            parentDiv.appendChild(newDiv);
+        }
+    </script>
+    <style>
+        /* Simple styling for the form and inputs */
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-left: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Input Fields</h1>
+    <!-- Form with dynamic input fields -->
+    <form method="post" action="BatchAadharProcess"> <!-- Change action as needed -->
+        <!-- Container for the dynamic input fields -->
+        <div id="input-container" class="input-group">
+            <!-- Initial input field -->
+            <input type="text" name="multiInput" placeholder="Enter value">
+        </div>
+
+        <!-- Button to add more input fields -->
+        <button type="button" onclick="addInputField()">Add More</button>
+
+        <!-- Submit button -->
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

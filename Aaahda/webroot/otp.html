@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Enter OTP</title>
+    <script>
+        function submitOTPForm(event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order_id');
+            const otp = document.getElementById('otp').value;
+
+            fetch(`http://localhost:8080/AadharAutomate/OTPInputServlet?order_id=${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: new URLSearchParams({
+                    'otp': otp
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.data === 'Successful') {
+                    window.location.href = `status.html?order_id=${orderId}`;
+                } else {
+                    alert('An error occurred. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+    </script>
+</head>
+<body>
+    <form id="otpForm" onsubmit="submitOTPForm(event)">
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" required>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

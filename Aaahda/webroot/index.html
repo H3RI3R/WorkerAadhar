@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Enter Aadhar Number</title>
+    <script>
+        async function submitForm(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const aadharNumber = document.querySelector("input[name='ad']").value;
+
+            try {
+                const response = await fetch(`http://localhost:8080/AadharAutomate/add?ad=${aadharNumber}`, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+
+                if (data.order_id) {
+                    window.location.href = `otp.html?order_id=${data.order_id}`;
+                } else {
+                    alert('Error: Order ID not received.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector("form").addEventListener("submit", submitForm);
+        });
+    </script>
+</head>
+<body>
+    <h1>Enter Aadhar Number</h1>
+    <form action="add" method="post">
+        <label for="ad">Aadhar Number:</label>
+        <input type="text" id="ad" name="ad" required><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

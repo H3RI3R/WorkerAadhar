@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Data Display</title>
+    <script>
+        function fetchDataAndDisplay() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order_id');
+
+            fetch(`http://localhost:8080/AadharAutomate/checkStatus?order_id=${orderId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    const userData = data.data;
+                    const displayDiv = document.getElementById('dataDisplay');
+                    displayDiv.innerHTML = `
+                        <p>Name: ${userData.Name}</p>
+                        <p>Date of Birth: ${userData.DateOfBirth}</p>
+                        <p>Aadhar Content: ${userData.AadharContent}</p>
+                        <p>Aadhar Number: ${userData.AadharNumber}</p>
+                        <p>Gender: ${userData.Gender}</p>
+                        <p>Aadhar Address: ${userData.AadharAddress}</p>
+                        <p>Age: ${userData.Age}</p>
+                    `;
+                } else {
+                    alert('Failed to retrieve data. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+        window.onload = fetchDataAndDisplay;
+    </script>
+</head>
+<body>
+    <div id="dataDisplay">
+        <p>Loading data...</p>
+    </div>
+</body>
+</html>
